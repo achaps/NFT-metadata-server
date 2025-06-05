@@ -42,7 +42,7 @@ app.get('/api/pandas/:tokenId', (req, res) => {
   const { tokenId } = req.params;
   const tokenIdNum = parseInt(tokenId);
   
-  if (isNaN(tokenIdNum) || tokenIdNum < 1 || tokenIdNum > collections.pandas.totalSupply) {
+  if (isNaN(tokenIdNum) || tokenIdNum < 0 || tokenIdNum >= collections.pandas.totalSupply) {
     return res.status(404).json({ error: 'Token not found' });
   }
 
@@ -54,8 +54,11 @@ app.get('/api/pandas/:tokenId', (req, res) => {
   const color = colors[tokenIdNum % colors.length];
   const level = Math.floor((tokenIdNum % 50) + 1);
 
+  // Display tokenId as 1-based (tokenId 0 shows as #1)
+  const displayTokenId = tokenIdNum + 1;
+
   const metadata = {
-    name: `${collections.pandas.name} #${tokenId}`,
+    name: `${collections.pandas.name} #${displayTokenId}`,
     description: `Un panda unique de la collection ${collections.pandas.name}. ${collections.pandas.description}`,
     image: `https://api.dicebear.com/7.x/bottts/svg?seed=panda${tokenId}&backgroundColor=00acc1,039be5,1e88e5,3949ab,5e35b1,8e24aa,d81b60,e53935,fb8c00,ff9800`,
     external_url: `https://dogemuseum.xyz/nft/pandas/${tokenId}`,
@@ -93,7 +96,7 @@ app.get('/api/bears/:tokenId', (req, res) => {
   const { tokenId } = req.params;
   const tokenIdNum = parseInt(tokenId);
   
-  if (isNaN(tokenIdNum) || tokenIdNum < 1 || tokenIdNum > collections.bears.totalSupply) {
+  if (isNaN(tokenIdNum) || tokenIdNum < 0 || tokenIdNum >= collections.bears.totalSupply) {
     return res.status(404).json({ error: 'Token not found' });
   }
 
@@ -105,8 +108,11 @@ app.get('/api/bears/:tokenId', (req, res) => {
   const color = colors[tokenIdNum % colors.length];
   const level = Math.floor((tokenIdNum % 50) + 1);
 
+  // Display tokenId as 1-based (tokenId 0 shows as #1)
+  const displayTokenId = tokenIdNum + 1;
+
   const metadata = {
-    name: `${collections.bears.name} #${tokenId}`,
+    name: `${collections.bears.name} #${displayTokenId}`,
     description: `Un ours unique de la collection ${collections.bears.name}. ${collections.bears.description}`,
     image: `https://api.dicebear.com/7.x/bottts/svg?seed=bear${tokenId}&backgroundColor=795548,8d6e63,a1887f,bcaaa4,d7ccc8,efebe9,3e2723,5d4037,6d4c41,8d6e63`,
     external_url: `https://dogemuseum.xyz/nft/bears/${tokenId}`,
