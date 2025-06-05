@@ -1,0 +1,26 @@
+{
+    "name": "doge-museum-metadata-server",
+    "version": "1.0.0",
+    "description": "NFT Metadata Server for Doge Museum - Serves ERC721 compliant metadata for Laika Chain",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js",
+      "dev": "node server.js"
+    },
+    "keywords": [
+      "nft",
+      "metadata",
+      "erc721",
+      "laika-chain",
+      "doge-museum"
+    ],
+    "author": "Doge Museum",
+    "license": "MIT",
+    "dependencies": {
+      "express": "^4.18.2",
+      "cors": "^2.8.5"
+    },
+    "engines": {
+      "node": ">=16.0.0"
+    }
+  } 
