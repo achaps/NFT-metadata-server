@@ -30,11 +30,26 @@ app.get('/', (req, res) => {
     version: "1.0.0",
     endpoints: {
       pandas: "/api/pandas/:tokenId",
-      bears: "/api/bears/:tokenId"
+      pandasContract: "/api/pandas/contract",
+      bears: "/api/bears/:tokenId",
+      bearsContract: "/api/bears/contract"
     },
     chain: "Holesky Chain (17000)",
     status: "active"
   });
+});
+
+// Pandas collection contract metadata
+app.get('/api/pandas/contract', (req, res) => {
+  const contractMetadata = {
+    name: collections.pandas.name,
+    description: collections.pandas.description,
+    image: `https://img.over-blog-kiwi.com/3/05/63/84/20190311/ob_2f3c96_l2p-1-1-1.png`,
+    external_link: `https://doge.museum`,
+    seller_fee_basis_points: 500,
+    fee_recipient: "0x79ED688442cf445Cb6137196BB21bbDAACaE79D2"
+  };
+  res.json(contractMetadata);
 });
 
 // Pandas collection metadata
@@ -89,6 +104,19 @@ app.get('/api/pandas/:tokenId', (req, res) => {
   };
 
   res.json(metadata);
+});
+
+// Bears collection contract metadata
+app.get('/api/bears/contract', (req, res) => {
+  const contractMetadata = {
+    name: "DM Bears",
+    description: "Bears on Doge Museum",
+    image: `https://i.ytimg.com/vi/DDY2nK9ugEI/maxresdefault.jpg`,
+    external_link: `https://doge.museum`,
+    seller_fee_basis_points: 500,
+    fee_recipient: "0x79ED688442cf445Cb6137196BB21bbDAACaE79D2"
+  };
+  res.json(contractMetadata);
 });
 
 // Bears collection metadata  
@@ -160,5 +188,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Doge Museum Metadata Server running on port ${PORT}`);
   console.log(`📡 Serving NFT metadata for Holesky Chain`);
   console.log(`🐼 Pandas: /api/pandas/:tokenId`);
+  console.log(`🐼 Pandas Contract: /api/pandas/contract`);
   console.log(`🐻 Bears: /api/bears/:tokenId`);
+  console.log(`🐻 Bears Contract: /api/bears/contract`);
 }); 
