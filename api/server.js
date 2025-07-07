@@ -216,7 +216,7 @@ app.get('/api/cats/:tokenId', (req, res) => {
   const metadata = {
     name: `${collections.cats.name} #${displayTokenId}`,
     description: `Unique Cat from ${collections.cats.name}. ${collections.cats.description}`,
-    image: `https://i.pinimg.com/originals/b8/87/7c/b8877c4c0a5f6e5b6f7e8b5a3c4d2e1f.jpg`,
+    image: `https://cryptocurrencyjobs.co/startups/assets/logos/cool-cats.4822fb5fa9b282192fa434b84e4b8674a301acc28f5139e76bdde83285f9652c.jpg`,
     external_url: `https://doge.museum/nft/cats/${tokenId}`,
     attributes: [
       {
