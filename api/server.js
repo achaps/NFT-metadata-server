@@ -19,6 +19,11 @@ const collections = {
     name: "DM Bears", 
     description: "Bears on Doge Museum",
     totalSupply: 1000
+  },
+  cats: {
+    name: "DogeCatz",
+    description: "Catz on Doge Museum",
+    totalSupply: 10
   }
 };
 
@@ -32,7 +37,9 @@ app.get('/', (req, res) => {
       pandas: "/api/pandas/:tokenId",
       pandasContract: "/api/pandas/contract",
       bears: "/api/bears/:tokenId",
-      bearsContract: "/api/bears/contract"
+      bearsContract: "/api/bears/contract",
+      cats: "/api/cats/:tokenId",
+      catsContract: "/api/cats/contract"
     },
     chain: "Holesky Chain (17000)",
     status: "active"
@@ -173,6 +180,73 @@ app.get('/api/bears/:tokenId', (req, res) => {
   res.json(metadata);
 });
 
+// Cats collection contract metadata
+app.get('/api/cats/contract', (req, res) => {
+  const contractMetadata = {
+    name: collections.cats.name,
+    description: collections.cats.description,
+    image: `https://i.pinimg.com/originals/b8/87/7c/b8877c4c0a5f6e5b6f7e8b5a3c4d2e1f.jpg`,
+    external_link: `https://doge.museum`,
+    seller_fee_basis_points: 500,
+    fee_recipient: "0x79ED688442cf445Cb6137196BB21bbDAACaE79D2"
+  };
+  res.json(contractMetadata);
+});
+
+// Cats collection metadata  
+app.get('/api/cats/:tokenId', (req, res) => {
+  const { tokenId } = req.params;
+  const tokenIdNum = parseInt(tokenId);
+  
+  if (isNaN(tokenIdNum) || tokenIdNum < 0 || tokenIdNum >= collections.cats.totalSupply) {
+    return res.status(404).json({ error: 'Token not found' });
+  }
+
+  const rarities = ['Common', 'Rare', 'Epic', 'Legendary'];
+  const colors = ['Orange', 'Black', 'White', 'Tabby', 'Calico'];
+  
+  // Generate deterministic attributes based on tokenId
+  const rarity = rarities[tokenIdNum % rarities.length];
+  const color = colors[tokenIdNum % colors.length];
+  const level = Math.floor((tokenIdNum % 50) + 1);
+
+  // Display tokenId as 1-based (tokenId 0 shows as #1)
+  const displayTokenId = tokenIdNum + 1;
+
+  const metadata = {
+    name: `${collections.cats.name} #${displayTokenId}`,
+    description: `Unique Cat from ${collections.cats.name}. ${collections.cats.description}`,
+    image: `https://i.pinimg.com/originals/b8/87/7c/b8877c4c0a5f6e5b6f7e8b5a3c4d2e1f.jpg`,
+    external_url: `https://doge.museum/nft/cats/${tokenId}`,
+    attributes: [
+      {
+        trait_type: "Collection",
+        value: collections.cats.name
+      },
+      {
+        trait_type: "Rarity",
+        value: rarity
+      },
+      {
+        trait_type: "Color", 
+        value: color
+      },
+      {
+        trait_type: "Level",
+        value: level,
+        display_type: "number"
+      },
+      {
+        trait_type: "Token ID",
+        value: tokenIdNum,
+        display_type: "number"
+      }
+    ]
+  };
+
+  res.json(metadata);
+});
+
 // Error handling
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
@@ -191,4 +265,6 @@ app.listen(PORT, () => {
   console.log(`🐼 Pandas Contract: /api/pandas/contract`);
   console.log(`🐻 Bears: /api/bears/:tokenId`);
   console.log(`🐻 Bears Contract: /api/bears/contract`);
+  console.log(`🐱 Cats: /api/cats/:tokenId`);
+  console.log(`🐱 Cats Contract: /api/cats/contract`);
 }); 
